@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <form [formGroup]="processForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="npu" class="form-label">NPU:</label>
+      <input id="npu" formControlName="npu" type="text" class="form-control" mask="0000000-00.0000.0.00.0000" required>
+      <div *ngIf="processForm.get('npu')?.invalid && processForm.get('npu')?.touched" class="text-danger">
+        NPU é obrigatório e deve estar no formato 1111111-11.1111.1.11.1111.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="dataCadastro" class="form-label">Data de Cadastro:</label>
+      <input id="dataCadastro" formControlName="dataCadastro" type="date" class="form-control" required>
+      <div *ngIf="processForm.get('dataCadastro')?.invalid && processForm.get('dataCadastro')?.touched" class="text-danger">
+        Data de Cadastro é obrigatória.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="uf" class="form-label">UF:</label>
+      <select id="uf" formControlName="uf" (change)="onUFChange()" class="form-select" required>
+        <option *ngFor="let uf of ufs" [value]="uf.sigla">{{ uf.nome }}</option>
+      </select>
+      <div *ngIf="processForm.get('uf')?.invalid && processForm.get('uf')?.touched" class="text-danger">
+        UF é obrigatório.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="municipio" class="form-label">Município:</label>
+      <select id="municipio" formControlName="municipio" class="form-select" required>
+        <option *ngFor="let municipio of municipios" [value]="municipio.nome">{{ municipio.nome }}</option>
+      </select>
+      <div *ngIf="processForm.get('municipio')?.invalid && processForm.get('municipio')?.touched" class="text-danger">
+        Município é obrigatório.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="documento" class="form-label">Documento (PDF):</label>
+      <input id="documento" type="file" (change)="onFileChange($event)" class="form-control" [required]="!isEditMode">
+      <div *ngIf="processForm.get('documento')?.invalid && processForm.get('documento')?.touched" class="text-danger">
+        Documento é obrigatório.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <button type="submit" class="btn btn-primary" [disabled]="processForm.invalid || (!selectedFile && !isEditMode)">Salvar</button>
+    </div>
+
+    <div class="mb-3">
+      <button class="btn btn-secondary" (click)="goBack()">Voltar para Lista</button>
+    </div>
+  </form>
+</div>

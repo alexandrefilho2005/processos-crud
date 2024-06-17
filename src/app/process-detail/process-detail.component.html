@@ -1,0 +1,23 @@
+<div class="container mt-4" *ngIf="process">
+  <h2>Detalhes do Processo</h2>
+  <div class="mb-3">
+    <strong class="text-secondary">NPU:</strong> {{ process.npu }}
+  </div>
+  <div class="mb-3">
+    <strong class="text-secondary">Data de Cadastro:</strong> {{ process.dataCadastro | date }}
+  </div>
+  <div class="mb-3">
+    <strong class="text-secondary">Data de Visualização:</strong> {{ process.dataVisualizacao | date }}
+  </div>
+  <div class="mb-3">
+    <strong class="text-secondary">Município:</strong> {{ process.municipio }}
+  </div>
+  <div class="mb-3">
+    <strong class="text-secondary">UF:</strong> {{ process.uf }}
+  </div>
+  <div class="mb-3">
+    <strong class="text-secondary">Documento: </strong>
+    <button class="btn btn-info" (click)="downloadDocumento()">Download</button>
+  </div>
+  <button class="btn btn-secondary" (click)="goBack()">Voltar para Lista</button>
+</div>
