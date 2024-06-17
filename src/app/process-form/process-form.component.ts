@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from "@angula
 import { ProcessService } from '../process.service';
 import { IbgeService } from '../ibge.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import { Process } from '../process.model';
 
 @Component({
   selector: 'app-process-form',
@@ -19,6 +20,7 @@ export class ProcessFormComponent implements OnInit {
   selectedFile: File | null = null;
   isEditMode: boolean = false;
   processId: number | null = null;
+  currentDocumentUrl: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +34,7 @@ export class ProcessFormComponent implements OnInit {
       dataCadastro: ['', Validators.required],
       municipio: ['', Validators.required],
       uf: ['', Validators.required],
-      documento: ['', Validators.required]
+      documento: ['']
     });
   }
 
@@ -47,6 +49,9 @@ export class ProcessFormComponent implements OnInit {
         this.isEditMode = true;
         this.processId = +id;
         this.loadProcess(+id);
+      } else {
+        // Se for um novo processo, o campo documento é obrigatório
+        this.processForm.get('documento')?.setValidators([Validators.required]);
       }
     });
   }
@@ -59,7 +64,14 @@ export class ProcessFormComponent implements OnInit {
         municipio: data.municipio,
         uf: data.uf
       });
-      // Note que aqui o campo de documento não é preenchido porque não temos o arquivo
+
+      // Carregar os municípios da UF selecionada
+      this.ibgeService.getMunicipios(data.uf).subscribe(municipios => {
+        this.municipios = municipios;
+      });
+
+      // Definir a URL do documento atual
+      this.currentDocumentUrl = `${this.processService.apiUrl}/${id}/documento`;
     });
   }
 

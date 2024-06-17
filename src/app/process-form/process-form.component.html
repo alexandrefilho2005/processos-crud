@@ -42,6 +42,9 @@
       <div *ngIf="processForm.get('documento')?.invalid && processForm.get('documento')?.touched" class="text-danger">
         Documento é obrigatório.
       </div>
+      <div *ngIf="currentDocumentUrl">
+        <a [href]="currentDocumentUrl" target="_blank" class="btn btn-secondary mt-2">Visualizar Documento Atual</a>
+      </div>
     </div>
 
     <div class="mb-3">

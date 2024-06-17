@@ -7,7 +7,7 @@ import { Process } from './process.model';
   providedIn: 'root'
 })
 export class ProcessService {
-  private apiUrl = 'http://localhost:8080/api/processos'; // URL do backend
+  public apiUrl = 'http://localhost:8080/api/processos'; // URL do backend
 
   constructor(private http: HttpClient) {}
 
@@ -33,6 +33,10 @@ export class ProcessService {
 
   markAsViewed(id: number): Observable<Process> {
     return this.http.patch<Process>(`${this.apiUrl}/${id}/visualizar`, {});
+  }
+
+  downloadDocument(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${id}/documento`, { responseType: 'blob' });
   }
 }
 
